@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Job Description Analyzer</title>
+  <meta name="description" content="Turn any job description into a structured hiring report using LangGraph and Groq." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">JD</span>
+      <div>
+        <h1>Job Description Analyzer</h1>
+        <p>LangGraph · Groq · FastAPI</p>
+      </div>
+    </div>
+    <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle dark mode">🌓</button>
+  </header>
+
+  <main class="layout">
+    <!-- INPUT -->
+    <section class="card input-card">
+      <div class="card-head">
+        <h2>Paste a job description</h2>
+        <button id="sampleBtn" class="link-btn" type="button">Use sample</button>
+      </div>
+      <textarea id="jdInput" rows="14" placeholder="Paste the full job posting here…"></textarea>
+      <div class="input-foot">
+        <span id="counter" class="muted">0 / 15000</span>
+        <div class="actions">
+          <button id="clearBtn" class="btn ghost" type="button">Clear</button>
+          <button id="analyzeBtn" class="btn primary" type="button">
+            <span class="btn-label">Analyze</span>
+            <span class="spinner" hidden></span>
+          </button>
+        </div>
+      </div>
+      <div id="errorBox" class="error" role="alert" hidden></div>
+
+      <ol id="pipeline" class="pipeline">
+        <li data-step="extract"><span class="dot">1</span><div><b>Information Extraction</b><small>Title, company, experience, skills</small></div><em></em></li>
+        <li data-step="classify"><span class="dot">2</span><div><b>Job Classification</b><small>Category and employment type</small></div><em></em></li>
+        <li data-step="skills"><span class="dot">3</span><div><b>Skill Analysis</b><small>Technical, soft, top 3</small></div><em></em></li>
+        <li data-step="report"><span class="dot">4</span><div><b>Hiring Report</b><small>Structured final report</small></div><em></em></li>
+      </ol>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="output" id="output">
+      <div id="placeholder" class="card empty">
+        <div class="empty-art">📄 → 🧠 → 📊</div>
+        <h3>Your hiring report will appear here</h3>
+        <p class="muted">Paste a job description and press <b>Analyze</b> to run the 4-node LangGraph workflow.</p>
+      </div>
+
+      <div id="report" hidden>
+        <div class="card hero">
+          <div>
+            <p class="eyebrow">Job Title</p>
+            <h2 id="rTitle"></h2>
+            <p class="company">🏢 <span id="rCompany"></span></p>
+          </div>
+          <div class="hero-actions">
+            <button id="copyBtn" class="btn ghost" type="button">Copy JSON</button>
+            <button id="exportBtn" class="btn primary" type="button">Export JSON</button>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="card stat"><p class="eyebrow">Experience</p><h3 id="rExp"></h3></div>
+          <div class="card stat"><p class="eyebrow">Category</p><h3 id="rCat"></h3></div>
+          <div class="card stat"><p class="eyebrow">Employment</p><h3 id="rEmp"></h3></div>
+          <div class="card stat"><p class="eyebrow">Work Mode</p><h3 id="rMode"></h3></div>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title">🏆 Top 3 Most Important Skills</h3>
+          <ol id="rTop" class="top3"></ol>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title">Required Skills</h3>
+          <div id="rReq" class="tags"></div>
+          <h3 class="section-title">Technical Skills</h3>
+          <div id="rTech" class="tags"></div>
+          <h3 class="section-title">Soft Skills</h3>
+          <div id="rSoft" class="tags"></div>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title">Summary</h3>
+          <p id="rSummary"></p>
+          <h3 class="section-title">Ideal Candidate</h3>
+          <p id="rIdeal"></p>
+          <h3 class="section-title">Interview Focus Areas</h3>
+          <ul id="rFocus" class="focus"></ul>
+        </div>
+
+        <p id="meta" class="muted meta"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer muted">Built with LangGraph, Groq and FastAPI</footer>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="script.js"></script>
+</body>
+</html>

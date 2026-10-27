@@ -11,7 +11,7 @@ The analysis runs as a 4-node **LangGraph** workflow powered by **Groq** (Llama 
 ### Hiring Report
 ![Hiring report](docs/screenshots/02_result.png)
 
-### Hiring Report
+### Analyzer
 ![Hiring report](docs/screenshots/03_analyze.png)
 
 ### Dark Mode
